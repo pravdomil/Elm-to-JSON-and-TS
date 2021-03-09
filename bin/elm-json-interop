@@ -3269,43 +3269,22 @@ var $elm$core$Task$attempt = F2(
 					task)));
 	});
 var $author$project$Interop$JavaScript$Exception = $elm$core$Basics$identity;
-var $elm$core$Basics$composeR = F3(
-	function (f, g, x) {
-		return g(
-			f(x));
-	});
 var $elm$json$Json$Decode$decodeValue = _Json_run;
 var $elm$core$Task$fail = _Scheduler_fail;
-var $author$project$Utils$Task_$fromResult = function (a) {
-	if (!a.$) {
-		var b = a.a;
-		return $elm$core$Task$succeed(b);
-	} else {
-		var b = a.a;
-		return $elm$core$Task$fail(b);
-	}
-};
-var $elm$core$Result$mapError = F2(
-	function (f, result) {
-		if (!result.$) {
-			var v = result.a;
-			return $elm$core$Result$Ok(v);
-		} else {
-			var e = result.a;
-			return $elm$core$Result$Err(
-				f(e));
-		}
-	});
-var $author$project$Utils$Task_$andThenDecode = F2(
+var $author$project$Interop$JavaScript$decode = F2(
 	function (decoder, a) {
 		return A2(
 			$elm$core$Task$andThen,
 			function (v) {
-				return $author$project$Utils$Task_$fromResult(
-					A2(
-						$elm$core$Result$mapError,
-						A2($elm$core$Basics$composeR, $elm$json$Json$Decode$errorToString, $elm$core$Basics$identity),
-						A2($elm$json$Json$Decode$decodeValue, decoder, v)));
+				var _v0 = A2($elm$json$Json$Decode$decodeValue, decoder, v);
+				if (!_v0.$) {
+					var b = _v0.a;
+					return $elm$core$Task$fail('TypeError: ' + 'aaa');
+				} else {
+					var b = _v0.a;
+					return $elm$core$Task$fail(
+						'TypeError: ' + $elm$json$Json$Decode$errorToString(b));
+				}
 			},
 			a);
 	});
@@ -3315,13 +3294,13 @@ var $author$project$Interop$JavaScript$run = function (_v0) {
 var $elm$json$Json$Decode$succeed = _Json_succeed;
 var $author$project$Interop$NodeJs$consoleError = function (_v0) {
 	return A2(
-		$author$project$Utils$Task_$andThenDecode,
+		$author$project$Interop$JavaScript$decode,
 		$elm$json$Json$Decode$succeed(0),
 		_Scheduler_binding(function (callback) { try { callback(_Scheduler_succeed(_Json_wrap(console.error(_v0)))) } catch (e) { callback(_Scheduler_fail($author$project$Interop$JavaScript$Exception(String(e)))) } }));
 };
 var $author$project$Interop$NodeJs$consoleLog = function (_v0) {
 	return A2(
-		$author$project$Utils$Task_$andThenDecode,
+		$author$project$Interop$JavaScript$decode,
 		$elm$json$Json$Decode$succeed(0),
 		_Scheduler_binding(function (callback) { try { callback(_Scheduler_succeed(_Json_wrap(console.log(_v0)))) } catch (e) { callback(_Scheduler_fail($author$project$Interop$JavaScript$Exception(String(e)))) } }));
 };
@@ -3357,7 +3336,7 @@ var $elm$core$List$drop = F2(
 var $elm$json$Json$Decode$list = _Json_decodeList;
 var $elm$json$Json$Decode$string = _Json_decodeString;
 var $author$project$Interop$NodeJs$getArguments = A2(
-	$author$project$Utils$Task_$andThenDecode,
+	$author$project$Interop$JavaScript$decode,
 	$elm$json$Json$Decode$list($elm$json$Json$Decode$string),
 	_Scheduler_binding(function (callback) { try { callback(_Scheduler_succeed(_Json_wrap(process.argv))) } catch (e) { callback(_Scheduler_fail($author$project$Interop$JavaScript$Exception(String(e)))) } }));
 var $elm$core$Task$mapError = F2(
@@ -3368,13 +3347,13 @@ var $elm$core$Task$mapError = F2(
 			task);
 	});
 var $author$project$Interop$NodeJs$dirname__ = A2(
-	$author$project$Utils$Task_$andThenDecode,
+	$author$project$Interop$JavaScript$decode,
 	$elm$json$Json$Decode$string,
 	_Scheduler_binding(function (callback) { try { callback(_Scheduler_succeed(_Json_wrap(__dirname))) } catch (e) { callback(_Scheduler_fail($author$project$Interop$JavaScript$Exception(String(e)))) } }));
 var $author$project$Interop$NodeJs$copyFile = F2(
 	function (_v0, _v1) {
 		return A2(
-			$author$project$Utils$Task_$andThenDecode,
+			$author$project$Interop$JavaScript$decode,
 			$elm$json$Json$Decode$succeed(0),
 			_Scheduler_binding(async (callback) => { try { callback(_Scheduler_succeed(_Json_wrap(await require('fs/promises').copyFile(_v0, _v1)))) } catch (e) { callback(_Scheduler_fail($author$project$Interop$JavaScript$Exception(String(e)))) } }));
 	});
@@ -3514,6 +3493,11 @@ var $stil4m$elm_syntax$Elm$Syntax$Expression$Application = function (a) {
 var $stil4m$elm_syntax$Elm$Syntax$Expression$ParenthesizedExpression = function (a) {
 	return {$: 14, a: a};
 };
+var $elm$core$Basics$composeR = F3(
+	function (f, g, x) {
+		return g(
+			f(x));
+	});
 var $author$project$Utils$ElmSyntax$n = $stil4m$elm_syntax$Elm$Syntax$Node$Node($stil4m$elm_syntax$Elm$Syntax$Range$emptyRange);
 var $author$project$Utils$ElmSyntax$application = function (a) {
 	return $stil4m$elm_syntax$Elm$Syntax$Expression$Application(
@@ -6779,7 +6763,7 @@ var $stil4m$elm_syntax$Elm$Processing$ProcessContext = $elm$core$Basics$identity
 var $stil4m$elm_syntax$Elm$Processing$init = $elm$core$Dict$empty;
 var $author$project$Interop$NodeJs$mkDir = function (_v0) {
 	return A2(
-		$author$project$Utils$Task_$andThenDecode,
+		$author$project$Interop$JavaScript$decode,
 		$elm$json$Json$Decode$succeed(0),
 		_Scheduler_binding(async (callback) => { try { callback(_Scheduler_succeed(_Json_wrap(await require('fs/promises').mkdir(_v0, { recursive: true })))) } catch (e) { callback(_Scheduler_fail($author$project$Interop$JavaScript$Exception(String(e)))) } }));
 };
@@ -8490,7 +8474,7 @@ var $author$project$Main$srcFolderPath = function (path) {
 var $author$project$Interop$NodeJs$writeFile = F2(
 	function (_v0, _v1) {
 		return A2(
-			$author$project$Utils$Task_$andThenDecode,
+			$author$project$Interop$JavaScript$decode,
 			$elm$json$Json$Decode$succeed(0),
 			_Scheduler_binding(async (callback) => { try { callback(_Scheduler_succeed(_Json_wrap(await require('fs/promises').writeFile(_v0, _v1)))) } catch (e) { callback(_Scheduler_fail($author$project$Interop$JavaScript$Exception(String(e)))) } }));
 	});
@@ -8538,6 +8522,26 @@ var $author$project$Main$processFile_ = F3(
 var $author$project$Main$CannotParse = F2(
 	function (a, b) {
 		return {$: 1, a: a, b: b};
+	});
+var $author$project$Utils$Task_$fromResult = function (a) {
+	if (!a.$) {
+		var b = a.a;
+		return $elm$core$Task$succeed(b);
+	} else {
+		var b = a.a;
+		return $elm$core$Task$fail(b);
+	}
+};
+var $elm$core$Result$mapError = F2(
+	function (f, result) {
+		if (!result.$) {
+			var v = result.a;
+			return $elm$core$Result$Ok(v);
+		} else {
+			var e = result.a;
+			return $elm$core$Result$Err(
+				f(e));
+		}
 	});
 var $stil4m$elm_syntax$Elm$Parser$State$State = $elm$core$Basics$identity;
 var $stil4m$elm_syntax$Elm$Parser$State$emptyState = {W: _List_Nil, G: _List_Nil};
@@ -13152,7 +13156,7 @@ var $stil4m$elm_syntax$Elm$Parser$parse = function (input) {
 };
 var $author$project$Interop$NodeJs$readFile = function (_v0) {
 	return A2(
-		$author$project$Utils$Task_$andThenDecode,
+		$author$project$Interop$JavaScript$decode,
 		$elm$json$Json$Decode$string,
 		_Scheduler_binding(async (callback) => { try { callback(_Scheduler_succeed(_Json_wrap(await require('fs/promises').readFile(_v0, 'utf8')))) } catch (e) { callback(_Scheduler_fail($author$project$Interop$JavaScript$Exception(String(e)))) } }));
 };
@@ -13173,7 +13177,7 @@ var $author$project$Main$readAndParseElmFile = function (a) {
 };
 var $author$project$Interop$NodeJs$realPath = function (_v0) {
 	return A2(
-		$author$project$Utils$Task_$andThenDecode,
+		$author$project$Interop$JavaScript$decode,
 		$elm$json$Json$Decode$string,
 		_Scheduler_binding(async (callback) => { try { callback(_Scheduler_succeed(_Json_wrap(await require('fs/promises').realpath(_v0, 'utf8')))) } catch (e) { callback(_Scheduler_fail($author$project$Interop$JavaScript$Exception(String(e)))) } }));
 };
@@ -13230,7 +13234,7 @@ var $author$project$Main$mainTask = function () {
 }();
 var $author$project$Interop$NodeJs$processExit = function (_v0) {
 	return A2(
-		$author$project$Utils$Task_$andThenDecode,
+		$author$project$Interop$JavaScript$decode,
 		$elm$json$Json$Decode$succeed(0),
 		_Scheduler_binding(function (callback) { try { callback(_Scheduler_succeed(_Json_wrap(process.exit(_v0)))) } catch (e) { callback(_Scheduler_fail($author$project$Interop$JavaScript$Exception(String(e)))) } }));
 };
